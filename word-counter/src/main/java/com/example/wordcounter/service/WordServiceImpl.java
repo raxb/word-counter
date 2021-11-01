@@ -34,7 +34,7 @@ public class WordServiceImpl implements WordService {
 
     @Override
     public int countWord(String word) throws WordCounterException {
-        int count = 0;
+        int count;
         if (null != wordCounter.get(word.toLowerCase(Locale.ROOT))) {
             count = wordCounter.get(word.toLowerCase(Locale.ROOT));
         } else
@@ -43,6 +43,6 @@ public class WordServiceImpl implements WordService {
     }
 
     public void print() {
-        wordCounter.entrySet().forEach(e -> System.out.println("Key=" + e.getKey() + " Value=" + e.getValue()));
+        wordCounter.forEach((key, value) -> System.out.println("Key=" + key + " Value=" + value));
     }
 }

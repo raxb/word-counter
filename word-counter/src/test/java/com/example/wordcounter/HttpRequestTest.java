@@ -23,7 +23,7 @@ public class HttpRequestTest {
     TestRestTemplate restTemplate;
 
     @Test
-    public void welcomeTest() throws Exception {
+    public void welcomeTest() {
         assertThat(restTemplate.getForObject("http://localhost:" + port + "/v1/",
                 String.class)).contains("Welcome to Word Counter Program");
     }

@@ -20,12 +20,12 @@ public class RestController {
     }
 
     @PostMapping("/addWord/{word}")
-    public ResponseEntity addWord(@PathVariable String word) {
+    public ResponseEntity<String> addWord(@PathVariable String word) {
         return ResponseEntity.ok("Status for word addition " + wordService.addWord(word));
     }
 
     @GetMapping("/countWord/{word}")
-    public ResponseEntity countWord(@PathVariable String word) throws WordCounterException {
+    public ResponseEntity<String> countWord(@PathVariable String word) throws WordCounterException {
         int count = wordService.countWord(word);
         return ResponseEntity.ok("Word occurrence for " + word + " = " + count);
     }
