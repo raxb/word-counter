@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class WordServiceImpl implements WordService {
 
-    private final Map<String, Integer> wordCounter = new HashMap<>();
+    private static final Map<String, Integer> wordCounter = new ConcurrentHashMap<>();
 
     @Autowired
     @Qualifier("alphabeticValidator")
