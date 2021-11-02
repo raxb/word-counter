@@ -33,21 +33,29 @@ public class WordServiceImpl implements WordService {
             } else {
                 wordCounter.put(wordToAdd, 1);
             }
+            return true;
         }
-        return true;
     }
 
     @Override
-    public synchronized int countWord(String word) throws WordCounterException {
-        int count;
-        if (null != wordCounter.get(word.toLowerCase(Locale.ROOT))) {
-            count = wordCounter.get(word.toLowerCase(Locale.ROOT));
-        } else
-            throw new WordCounterException("Word not found");
-        return count;
+    public int countWord(String word) throws WordCounterException {
+        boolean matches = validatorTemplate.validate(word);
+        if (!matches) {
+            throw new WordCounterException("Invalid word! " + word);
+        }
+        synchronized (this) {
+            int count;
+            if (null != wordCounter.get(word.toLowerCase(Locale.ROOT))) {
+                count = wordCounter.get(word.toLowerCase(Locale.ROOT));
+            } else
+                throw new WordCounterException("Word not found");
+            return count;
+        }
     }
 
-    public synchronized void print() {
-        wordCounter.forEach((key, value) -> System.out.println("Key=" + key + " Value=" + value));
+    public void print() {
+        synchronized (this) {
+            wordCounter.forEach((key, value) -> System.out.println("Key=" + key + " Value=" + value));
+        }
     }
 }
