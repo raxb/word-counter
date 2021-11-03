@@ -13,7 +13,19 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class WordServiceImpl implements WordService {
 
-    private static final Map<String, Integer> wordCounter = new ConcurrentHashMap<>();
+    //Thread Confinement
+    private static ThreadLocal<Map<String, Integer>> mapHolder = new ThreadLocal<Map<String, Integer>>() {
+        public Map<String, Integer> createLocalInstance() {
+            return new ConcurrentHashMap<>();
+        }
+    };
+
+    public static Map<String, Integer> getLocalMap() {
+        return mapHolder.get();
+    }
+
+    //Instance Confinement
+    private final Map<String, Integer> wordCounter = new ConcurrentHashMap<>();
 
     @Autowired
     @Qualifier("alphabeticValidator")
